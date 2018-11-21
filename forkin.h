@@ -5,4 +5,4 @@
 #include <sys/wait.h>
 
 
-int deal_with_command(char ** command);
+int deal_with_command(char * command);
