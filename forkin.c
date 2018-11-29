@@ -29,8 +29,8 @@ int deal_with_command(char * command) {
    }
 }
 
-int main(){
+/*int main(){
     char str[] = "ls -l";
     deal_with_command(str);
     return 0;
-}
+}*/
