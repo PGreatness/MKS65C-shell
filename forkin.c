@@ -2,9 +2,9 @@
 
 
 char ** parse_args( char * line ) {
-    char ** pArray = malloc(sizeof(char *) * 256);
+    char ** pArray = malloc(sizeof(char *) * 6);
     char * str = line;
-    for (int i = 0; i < 6 && *(pArray + i)!= NULL; i++) {
+    for (int i = 0; i < 6; i++) {
     *(pArray + i) = strsep(&str , " ");
     }
     return pArray;
@@ -12,21 +12,25 @@ char ** parse_args( char * line ) {
 
 
 int deal_with_command(char * command) {
-  int child1 = fork();
-  if (!child1) {
-     char * line = command;
-     char ** args = parse_args(line);
+  int parent = fork();
+  printf("we are here\n");
+  if(parent){
+      printf("Got here, parent\n");
+      int status = 0;
+      wait(&status);
+      return WEXITSTATUS(status);
+    }
+  else {
+     printf("Got here, child\n");
+     char ** args = parse_args(command);
      execvp(args[0], args);
      printf("this shouldnt print\n");
      return 0;
-  }else{
-    int status = 0;
-    wait(&status);
-    return WEXITSTATUS(status);
-  }
+   }
 }
 
-int main(int argc, char * argv[]){
-    deal_with_command("ls -l");
+int main(){
+    char str[] = "ls -l";
+    deal_with_command(str);
     return 0;
 }
