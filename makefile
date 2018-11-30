@@ -9,3 +9,6 @@ shell.o: shell.c forkin.h
 
 run:
 	./a.out 
+
+clean: shell.o
+	rm *.o a.out

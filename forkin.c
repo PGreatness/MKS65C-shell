@@ -23,6 +23,7 @@ int deal_with_command(char * command) {
   else {
      printf("Got here, child\n");
      char ** args = parse_args(command);
+     //printf("%s\n", );
      execvp(args[0], args);
      printf("this shouldnt print\n");
      return 0;
