@@ -1,33 +1,38 @@
-# MKS65C-shell 
+# MKS65C-shell
 ## Roster: Jabir Chowdhury, Ahnaf Hasan
 
 ## Features implemented:
 - Changing directories
 - Exiting process
-- Multiple commands seperated with semicolons(";")
-
-## Features tried but were unsucessful in implementation
+- Multiple commands separated with semicolons(";"), there can be whitespace
+  before and after the semicolon but not in-between command arguments
 - Piping
 - Redirecting
 
+## Features tried but were unsucessful in implementation
+- Parsing for white spaces in-between command arguments
+
 ## Bugs that we are aware of
-- (FIXED) echoing into the terminal causes only up to around 28 characters to be returned instead of the whole string
-- multi commands starting with a space are not parsed correctly yet
+- exit does not work when the line before it results in an error
+- sometimes, redirecting stdout appends instead of overwriting
 ## Function headers
 
-`int lenarray(char*** arr);`
+### forkin.c
 
-`int ** parse_args( char * line );`
+`char ** parse_args( char * line );`
 
 `char *** parse_lines (char* line);`
 
-`int deal_with_command(char ** command);`
-
-`int deal_with_multiple_commands(char * command);`
+`int lenarray(char*** arr);`
 
 `int sizeofarray(char ** arr);`
 
+`char * trimwhitespace(char *str);`
+
 `int deal_with_command(char ** command);`
 
 `int deal_with_multiple_commands(char * command);`
-`
+
+### shell.c
+
+`int main();`

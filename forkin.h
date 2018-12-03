@@ -1,9 +1,3 @@
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include <unistd.h>
-// #include <sys/wait.h>
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,6 +15,7 @@
 
 int lenarray(char*** arr);
 int sizeofarray(char ** arr);
+char * trimwhitespace(char *str);
 char ** parse_args( char * line );
 char *** parse_lines (char* line);
 int deal_with_command(char ** command);

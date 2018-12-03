@@ -3,6 +3,14 @@
 // char ** count_str(char )
 
 int main() {
+  /*
+   * Acts as the "Shell"
+   *
+   * prompts for input after every command
+   * Each input is passed to deal_with_multiple_commands()
+   * Ends when prompted with "exit"
+   *
+   */
   while(1){
      char cwd[256];
      char usr[256];
@@ -13,15 +21,16 @@ int main() {
      char str[256];
      printf("%s:%s$ ", ending_cwd, usr);
      fgets(str, 256, stdin);
+     if (!strncmp("exit", str, 4 )) {
+        exit(0);
+     }
      //printf("Got here\n");
      char * tmp_pointer = str;
      char * prev = strsep(&tmp_pointer, "\n");
      //printf("This is prev: %s\n", prev
      if(!strcmp(str,"")) continue;
      deal_with_multiple_commands(str);
-     // if(!strcmp(str[0],"cd")){
-     // chdir(command[1]);
-     // }
+
   }
   /* code */
   return 0;
