@@ -2,6 +2,7 @@
 ## Roster: Jabir Chowdhury, Ahnaf Hasan
 
 ## Features implemented:
+- Displays user and current directory
 - Changing directories
 - Exiting process
 - Multiple commands separated with semicolons(";"), there can be whitespace
