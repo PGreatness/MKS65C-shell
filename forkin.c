@@ -2,16 +2,16 @@
 
 
 char ** parse_args( char * line ) {
-    char ** pArray = malloc(sizeof(char *) * 6);
+    char ** pArray = calloc(256, sizeof(char *));
     char * str = line;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 255; i++) {
     *(pArray + i) = strsep(&str , " ");
     }
     return pArray;
 }
 
 char *** parse_lines (char* line){
-	char *** ret = calloc(8, sizeof(char**));
+	char *** ret = calloc(256, sizeof(char**));
 	char *s = strsep(&line, ";");
 	int i = 0;
 	while (s) {
@@ -50,19 +50,37 @@ int deal_with_command(char ** command) {
       }
 	}
   else{
-    int parent = fork();
-    if(parent){
-        //printf("Got here, parent\n");
-        int status = 0;
-        wait(&status);
-        return WEXITSTATUS(status);
+
+        int backup_stdout=dup(STDOUT_FILENO);
+        int backup_stdin=dup(STDIN_FILENO);
+        int parent = fork();
+        if(parent){
+            //printf("Got here, parent\n");
+            int status = 0;
+            wait(&status);
+	    			dup2(backup_stdout,STDOUT_FILENO);
+		    		dup2(backup_stdin,STDIN_FILENO);
+            return WEXITSTATUS(status);
+          }
+        else {
+
+          				for(int j=0;j<sizeofarray(command);j++){
+          					if(!strcmp(command[j],">")){
+        	  					int fd=open(command[j+1],O_WRONLY|O_CREAT, 0644);
+          						int new=dup2(fd,STDOUT_FILENO);
+          						execlp(command[j-1],command[j-1],NULL);
+          					}
+          					else if(!strcmp(command[j],"<")){
+          						int fd=open(command[j+1],O_RDONLY);
+          						int new=dup2(fd,STDIN_FILENO);
+          						execlp(command[j-1],command[j-1],NULL);
+          					}
+          				}
+        		 execvp(command[0], command);
+             printf("%s : Unknown command. Type \"help\" for more commands\n", command[0]);
+             return 0;
+           }
       }
-    else {
-    		 execvp(command[0], command);
-         printf("%s : Unknown command. Type \"help\" for more commands\n", command[0]);
-         return 0;
-       }
-   }
 }
 
 int deal_with_multiple_commands(char * command){

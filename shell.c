@@ -7,8 +7,8 @@ int main() {
      char cwd[256];
      char usr[256];
      getcwd(cwd, sizeof(cwd));
-     getlogin_r(usr, sizeof(usr));
      char* ending_cwd = strrchr(cwd, '/') + 1;
+     getlogin_r(usr, sizeof(usr));
 
      char str[256];
      printf("%s:%s$ ", ending_cwd, usr);
