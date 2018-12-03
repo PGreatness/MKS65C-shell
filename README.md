@@ -6,8 +6,8 @@
 - Exiting process
 - Multiple commands separated with semicolons(";"), there can be whitespace
   before and after the semicolon but not in-between command arguments
-- Piping
-- Redirecting
+- Piping (only single pipes)
+- Redirecting (< , > , >>)
 
 ## Features tried but were unsucessful in implementation
 - Parsing for white spaces in-between command arguments
