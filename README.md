@@ -14,7 +14,7 @@
 - Parsing for white spaces in-between command arguments
 
 ## Bugs that we are aware of
-- exit does not work when the line before it results in an error
+- exit does not work sometimes, have to call it 2 to 3 times for it to work
 - sometimes, redirecting stdout appends instead of overwriting
 ## Function headers
 
