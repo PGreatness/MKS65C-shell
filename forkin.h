@@ -10,8 +10,8 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include <ctype.h>
+
 
 int lenarray(char*** arr);
 int sizeofarray(char ** arr);
