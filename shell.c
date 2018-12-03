@@ -5,11 +5,13 @@
 int main() {
   while(1){
      char cwd[256];
+     char usr[256];
      getcwd(cwd, sizeof(cwd));
+     getlogin_r(usr, sizeof(usr));
      char* ending_cwd = strrchr(cwd, '/') + 1;
 
      char str[256];
-     printf("%s:Shell$ ", ending_cwd);
+     printf("%s:%s$ ", ending_cwd, usr);
      fgets(str, 256, stdin);
      //printf("Got here\n");
      char * tmp_pointer = str;
