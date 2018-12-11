@@ -155,54 +155,34 @@ int deal_with_command(char ** command) {
                     }
                     // for dealing with pipes
                     else if (!strcmp(command[j],"|")){
-                      int fd=open("temp.txt", O_WRONLY|O_CREAT, 0644);
-                      dup2(fd,STDOUT_FILENO);
+                      int fd[2];
+                      pipe(fd);
                       char ** temp = calloc(256, sizeof(char *)); ;
                       for (int index = 0; index < j; index++){
                         temp[index] = command[index];
                       }
                       int frk = fork();
                       if(!frk){
+                      	close(fd[0]);
+                        int new=dup2(fd[1],STDOUT_FILENO);
                         execvp(temp[0],temp);
-                        dup2(backup_stdin,STDIN_FILENO);
-                        printf("error: Invalid Command\n");
-                        exit(0);
+                      	exit(0);
                       }
                       else{
                         int status = 0;
                         wait(&status);
+                        int rd=dup2(fd[0],STDIN_FILENO);
+					            	close(fd[1]);
                       }
-                      dup2(backup_stdout,STDOUT_FILENO);
                       free(temp);
-                      close(fd);
-                      fd=open("temp.txt",O_RDONLY);
-                      dup2(fd,STDIN_FILENO);
                       char ** temp1 = calloc(256, sizeof(char *));
                       for (int index = j+ 1; index < sizeofarray(command); index++){
-                        temp[index - j -1] = command[index];
+                        temp1[index - j -1] = command[index];
                       }
-                      frk = fork();
-                      if(!frk){
-                        execvp(temp[0],temp);
-                        dup2(backup_stdin,STDIN_FILENO);
+                        execvp(temp1[0],temp1);
                         printf("error: Invalid Command\n");
                         exit(0);
                       }
-                      else{
-                        int status = 0;
-                        wait(&status);
-                      }
-                      dup2(backup_stdin,STDIN_FILENO);
-                      free(temp1);
-                      close(fd);
-                      char ** temp2 = calloc(2, sizeof(char *));
-                      temp[0] = "rm";
-                      temp[1] = "temp.txt";
-                      execvp(temp[0], temp);
-                      printf("error: Invalid Command\n");
-                      exit(0);
-                    }
-
           				}
         		 execvp(command[0], command);
              printf("%s : Unknown command. Type \"help\" for more commands\n", command[0]);

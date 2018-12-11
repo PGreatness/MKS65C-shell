@@ -22,7 +22,8 @@ int main() {
      printf("%s:%s$ ", ending_cwd, usr);
      fgets(str, 256, stdin);
      if (!strncmp("exit", str, 4 )) {
-        exit(0);
+       dup2(0,1);
+       break;
      }
      //printf("Got here\n");
      char * tmp_pointer = str;
